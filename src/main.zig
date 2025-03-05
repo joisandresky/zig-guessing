@@ -1,5 +1,10 @@
 const std = @import("std");
 
+const MyError = error{
+    LuTololYak,
+    EmangLuTololSih,
+};
+
 pub fn main() !void {
     const stdout = std.io.getStdOut().writer();
 
@@ -20,7 +25,9 @@ pub fn main() !void {
         const input = try std.io.getStdIn().reader().readUntilDelimiter(buf, '\n');
         defer std.heap.page_allocator.free(buf);
 
-        guess = try std.fmt.parseInt(i32, input, 10);
+        guess = std.fmt.parseInt(i32, input, 10) catch {
+            return MyError.LuTololYak;
+        };
 
         attempt += 1;
 
